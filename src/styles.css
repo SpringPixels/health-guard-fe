@@ -1,3 +1,54 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import 'tailwindcss';
+
+/* GLOBAL ANGULAR MATERIAL OVERRIDES */
+
+/* Primary Button Styling */
+.mat-mdc-unelevated-button.mat-primary,
+.mat-mdc-raised-button.mat-primary {
+  --mdc-filled-button-container-color: #1d4ed8 !important;
+  /* tailwind blue-700 */
+  --mdc-filled-button-label-text-color: #ffffff !important;
+  border-radius: 9999px !important;
+  height: 56px !important;
+  font-size: 1.125rem !important;
+  font-weight: 700 !important;
+  transition: all 0.3s ease !important;
+}
+
+.mat-mdc-unelevated-button.mat-primary:hover,
+.mat-mdc-raised-button.mat-primary:hover {
+  --mdc-filled-button-container-color: #1e3a8a !important;
+  /* tailwind blue-900 */
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(29, 78, 216, 0.3), 0 4px 6px -2px rgba(29, 78, 216, 0.15) !important;
+}
+
+.mat-mdc-unelevated-button.mat-primary:disabled {
+  --mdc-filled-button-container-color: #94a3b8 !important;
+  /* tailwind slate-400 */
+  transform: none;
+  box-shadow: none !important;
+}
+
+/* Form Field Styling */
+.mat-mdc-text-field-wrapper.mdc-text-field--outlined {
+  border-radius: 12px !important;
+  background-color: #ffffff !important;
+  --mdc-outlined-text-field-focus-outline-color: #1d4ed8 !important;
+  --mdc-outlined-text-field-focus-label-text-color: #1d4ed8 !important;
+}
+
+.mdc-notched-outline__leading {
+  border-top-left-radius: 12px !important;
+  border-bottom-left-radius: 12px !important;
+}
+
+.mdc-notched-outline__trailing {
+  border-top-right-radius: 12px !important;
+  border-bottom-right-radius: 12px !important;
+}
+
+.mat-mdc-form-field-error,
+.mat-mdc-form-field-hint {
+  font-weight: 500 !important;
+}

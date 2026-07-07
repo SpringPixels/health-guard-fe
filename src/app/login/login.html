@@ -1,0 +1,78 @@
+<main class="min-h-screen flex items-center justify-center bg-white">
+  <div class="flex w-full min-h-screen">
+    
+    <!-- Left Side: Visual -->
+    <div class="hidden lg:flex w-1/2 relative bg-blue-900 overflow-hidden">
+      <img src="/Types_of_Family_Health_Insurance_in_India.jpg" alt="Health Guard Family" class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay">
+      <div class="absolute inset-0 bg-gradient-to-t from-blue-900 via-blue-900/60 to-transparent"></div>
+      
+      <div class="relative z-10 flex flex-col justify-end p-16 text-white h-full pb-32">
+        <div class="w-16 h-1.5 bg-yellow-400 mb-8 rounded-full shadow-lg"></div>
+        <h2 class="text-5xl font-extrabold mb-6 leading-tight drop-shadow-md">Secure Your Family's Health Future</h2>
+        <p class="text-xl font-medium text-blue-100 max-w-lg leading-relaxed drop-shadow-sm">
+          Join thousands of members who trust Health Guard for comprehensive, hassle-free insurance coverage and smart AI-driven savings.
+        </p>
+      </div>
+    </div>
+
+    <!-- Right Side: Form -->
+    <div class="w-full lg:w-1/2 flex items-center justify-center p-8 bg-slate-50 relative shadow-[-20px_0_40px_-15px_rgba(0,0,0,0.1)] z-20">
+      
+      <div class="absolute top-8 right-8">
+        <a mat-button routerLink="/" class="text-slate-600 font-semibold">
+          ← Back to Home
+        </a>
+      </div>
+
+      <div class="w-full max-w-md">
+        <div class="flex justify-start mb-12">
+          <img class="h-12 w-auto" src="/logo_full.png" alt="Health Guard" />
+        </div>
+
+        @let email = loginForm.email;
+        @let password = loginForm.password;
+        <form class="flex flex-col gap-6" [formRoot]="loginForm">
+          <div class="mb-2">
+            <h2 class="text-4xl font-extrabold text-slate-900 mb-3 tracking-tight">Welcome Back</h2>
+            <p class="text-slate-500 font-medium text-lg">Please enter your details to sign in.</p>
+          </div>
+          
+          <div class="flex flex-col gap-2">
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Email Address</mat-label>
+              <input matInput [formField]="loginForm.email" type="email" placeholder="you@example.com" />
+              <mat-hint class="text-red-500">
+                @if (email().errors() && email().touched()) {
+                  @for (error of email().errors(); track error.kind) {
+                    {{ error.message }}
+                  }
+                }
+              </mat-hint>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Password</mat-label>
+              <input matInput [formField]="loginForm.password" type="password" placeholder="Enter your password" />
+              <mat-hint class="text-red-500">
+                @if (password().errors() && password().touched()) {
+                  @for (error of password().errors(); track error.kind) {
+                    {{ error.message }}
+                  }
+                }
+              </mat-hint>
+            </mat-form-field>
+          </div>
+
+          <div class="mt-4 flex flex-col gap-4">
+            <button mat-flat-button color="primary" type="submit" [disabled]="!loginForm().valid()">
+              Sign In
+            </button>
+            <a mat-button routerLink="/register" class="text-slate-600 font-medium mt-2">
+              New to Health Guard? Register Now
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
