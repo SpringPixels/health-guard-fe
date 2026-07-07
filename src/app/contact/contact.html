@@ -1,0 +1,135 @@
+<main class="min-h-screen bg-slate-50 pb-20">
+  <!-- Hero Section -->
+  <section class="bg-blue-900 text-white py-24 px-6 relative overflow-hidden">
+    <div class="absolute inset-0 bg-[url('/Types_of_Family_Health_Insurance_in_India.jpg')] bg-cover bg-center opacity-20 mix-blend-overlay"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-blue-900 via-blue-900/80 to-transparent"></div>
+    <div class="max-w-5xl mx-auto relative z-10 text-center">
+      <div class="w-16 h-1.5 bg-yellow-400 mx-auto mb-8 rounded-full shadow-lg"></div>
+      <h1 class="text-5xl font-extrabold mb-6">Get in Touch</h1>
+      <p class="text-xl text-blue-100 max-w-2xl mx-auto">
+        Have questions about our AI-driven premium calculator or insurance plans? Our support team is here to help you secure your family's future.
+      </p>
+    </div>
+  </section>
+
+  <!-- Content Section -->
+  <section class="max-w-6xl mx-auto px-6 -mt-10 relative z-20">
+    <div class="flex flex-col lg:flex-row gap-8">
+      
+      <!-- Contact Information Card -->
+      <mat-card class="flex-1 p-10 shadow-xl rounded-3xl border border-slate-100 bg-white">
+        <h2 class="text-3xl font-extrabold text-slate-900 mb-8">Contact Information</h2>
+        
+        <div class="flex flex-col gap-8">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
+              <mat-icon class="text-blue-700">location_on</mat-icon>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-slate-900">Our Headquarters</h3>
+              <p class="text-slate-500 mt-1">401 Health Tech Park, Sector 4<br>Andheri East, Mumbai, MH 400069</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
+              <mat-icon class="text-blue-700">phone</mat-icon>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-slate-900">Phone Support</h3>
+              <p class="text-slate-500 mt-1">+91 1800 233 4567<br>Mon-Sat, 9am - 7pm IST</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
+              <mat-icon class="text-blue-700">email</mat-icon>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-slate-900">Email Us</h3>
+              <p class="text-slate-500 mt-1">support@healthguard.com<br>info@healthguard.com</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-12 p-6 bg-slate-50 rounded-2xl border border-slate-100">
+          <h4 class="font-bold text-slate-900 mb-2">Need Immediate Assistance?</h4>
+          <p class="text-sm text-slate-600">
+            If you are an existing member and have an emergency, please use our 24/7 dedicated member portal line found on the back of your insurance card.
+          </p>
+        </div>
+      </mat-card>
+
+      <!-- Contact Form Card -->
+      <mat-card class="flex-[1.5] p-10 shadow-xl rounded-3xl border border-slate-100 bg-white">
+        <h2 class="text-3xl font-extrabold text-slate-900 mb-2">Send us a Message</h2>
+        <p class="text-slate-500 mb-8">Fill out the form below and we'll get back to you within 24 hours.</p>
+
+        @let name = contactForm.name;
+        @let email = contactForm.email;
+        @let subject = contactForm.subject;
+        @let message = contactForm.message;
+        
+        <form class="flex flex-col gap-2" [formRoot]="contactForm" (ngSubmit)="onSubmit()">
+          
+          <div class="flex flex-col md:flex-row gap-4 w-full">
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Full Name</mat-label>
+              <input matInput [formField]="contactForm.name" placeholder="John Doe" />
+              <mat-hint class="text-red-500">
+                @if (name().errors() && name().touched()) {
+                  @for (error of name().errors(); track error.kind) {
+                    {{ error.message }}
+                  }
+                }
+              </mat-hint>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Email Address</mat-label>
+              <input matInput [formField]="contactForm.email" type="email" placeholder="you@example.com" />
+              <mat-hint class="text-red-500">
+                @if (email().errors() && email().touched()) {
+                  @for (error of email().errors(); track error.kind) {
+                    {{ error.message }}
+                  }
+                }
+              </mat-hint>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Subject</mat-label>
+            <input matInput [formField]="contactForm.subject" placeholder="How can we help?" />
+            <mat-hint class="text-red-500">
+              @if (subject().errors() && subject().touched()) {
+                @for (error of subject().errors(); track error.kind) {
+                  {{ error.message }}
+                }
+              }
+            </mat-hint>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Message</mat-label>
+            <textarea matInput [formField]="contactForm.message" rows="5" placeholder="Write your message here..."></textarea>
+            <mat-hint class="text-red-500">
+              @if (message().errors() && message().touched()) {
+                @for (error of message().errors(); track error.kind) {
+                  {{ error.message }}
+                }
+              }
+            </mat-hint>
+          </mat-form-field>
+
+          <div class="mt-4 flex justify-end">
+            <button mat-flat-button color="primary" type="submit" [disabled]="!contactForm().valid()" class="px-10 py-6 text-lg">
+              Send Message
+            </button>
+          </div>
+        </form>
+      </mat-card>
+
+    </div>
+  </section>
+</main>

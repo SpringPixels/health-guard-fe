@@ -7,4 +7,5 @@ export const routes: Routes = [
   { path: 'coverage', component: CoverageComponent },
   { path: 'login', loadComponent: () => import('./login/login').then(m => m.Login) },
   { path: 'register', loadComponent: () => import('./register/register').then(m => m.Register) },
+  { path: 'contact', loadComponent: () => import('./contact/contact.component').then(m => m.ContactComponent) },
 ];
