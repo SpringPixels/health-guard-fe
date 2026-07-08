@@ -1,19 +1,25 @@
 import { Injectable, signal } from '@angular/core';
 
+export interface PredictionResponse {
+  predicted_category: string;
+  confidence: number;
+  class_probabilities: { [key: string]: number };
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class CalculatorStateService {
   name = signal<string>('');
-  premium = signal<number | null>(null);
+  prediction = signal<PredictionResponse | null>(null);
 
-  setResult(name: string, premium: number) {
+  setResult(name: string, prediction: PredictionResponse) {
     this.name.set(name);
-    this.premium.set(premium);
+    this.prediction.set(prediction);
   }
 
   clear() {
     this.name.set('');
-    this.premium.set(null);
+    this.prediction.set(null);
   }
 }

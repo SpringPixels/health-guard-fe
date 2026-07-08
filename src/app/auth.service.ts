@@ -13,10 +13,12 @@ export class AuthService {
   isLoggedIn = signal<boolean>(false);
   isAdmin = signal<boolean>(false);
   email = signal<string | null>(null);
+  fullName = signal<string | null>(null);
 
   private readonly tokenKey = 'token';
   private readonly emailKey = 'email';
   private readonly adminKey = 'admin';
+  private readonly nameKey = 'full_name';
 
   constructor() {
     // Initialize state from local storage on startup
@@ -25,6 +27,9 @@ export class AuthService {
 
       const savedEmail = localStorage.getItem(this.emailKey);
       if (savedEmail) this.email.set(savedEmail);
+
+      const savedName = localStorage.getItem(this.nameKey);
+      if (savedName) this.fullName.set(savedName);
 
       const savedAdmin = localStorage.getItem(this.adminKey);
       if (savedAdmin === 'true') this.isAdmin.set(true);
@@ -54,14 +59,22 @@ export class AuthService {
           }
         }
       }),
-      // Fetch user profile to get role/admin status
+      // Fetch user profile to get role/admin status and full name
       switchMap(() => this.http.get(`${environment.apiUrl}/me`)),
       tap((profile: any) => {
-        // Assume profile has a role property, adjust if the backend returns something different
+        // Assume profile has a role property and full_name property
         const isUserAdmin = profile && profile.role === 'admin';
         this.isAdmin.set(isUserAdmin);
+        
+        if (profile && profile.full_name) {
+          this.fullName.set(profile.full_name);
+        }
+
         if (typeof window !== 'undefined') {
           localStorage.setItem(this.adminKey, isUserAdmin ? 'true' : 'false');
+          if (profile && profile.full_name) {
+            localStorage.setItem(this.nameKey, profile.full_name);
+          }
         }
       })
     );
@@ -71,10 +84,12 @@ export class AuthService {
     this.isLoggedIn.set(false);
     this.isAdmin.set(false);
     this.email.set(null);
+    this.fullName.set(null);
     if (typeof window !== 'undefined') {
       localStorage.removeItem(this.tokenKey);
       localStorage.removeItem(this.emailKey);
       localStorage.removeItem(this.adminKey);
+      localStorage.removeItem(this.nameKey);
     }
   }
 

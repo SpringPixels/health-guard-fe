@@ -1,29 +1,42 @@
-<header class="sticky top-0 z-50 flex items-center justify-between px-6 py-4 bg-white shadow-sm border-b border-slate-100">
+<header class="flex items-center justify-between px-6 lg:px-10 py-4 bg-white/80 backdrop-blur-md shadow-sm border-b border-slate-200/50">
   <div class="flex items-center">
-    <a routerLink="/">
-      <img src="/logo_full.png" alt="Health Guard Logo" class="h-12 w-auto">
+    <a routerLink="/home" class="flex items-center gap-2 hover:opacity-90 transition-opacity">
+      <img src="/logo_full.png" alt="Health Guard Logo" class="h-10 w-auto">
     </a>
   </div>
-  <nav class="hidden md:flex gap-8">
-    <a routerLink="/" class="font-semibold text-slate-600 hover:text-blue-700 transition-colors">Home</a>
-    <a routerLink="/coverage" class="font-semibold text-slate-600 hover:text-blue-700 transition-colors">Insurance Plans</a>
-    <a routerLink="/contact" class="font-semibold text-slate-600 hover:text-blue-700 transition-colors">Contact</a>
+  
+  <nav class="hidden md:flex items-center gap-2">
+    <a routerLink="/home" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-all">Home</a>
+    <a routerLink="/coverage" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-all">Insurance Plans</a>
+    <a routerLink="/contact" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-all">Contact</a>
   </nav>
+  
   <div class="hidden md:flex items-center gap-4">
     @if (authService.isLoggedIn()) {
-      <div class="flex items-center gap-3">
-        <span class="text-sm font-medium text-slate-600">
-          Hello, <span class="font-bold text-blue-700">{{ authService.email() || 'User' }}</span>
-          @if (authService.isAdmin()) {
-            <span class="ml-1 inline-block px-2 py-0.5 bg-blue-100 text-blue-800 text-xs font-bold rounded-full">ADMIN</span>
-          }
-        </span>
-        <button (click)="logout()" class="px-5 py-2 text-sm font-bold text-slate-600 hover:text-red-600 border border-slate-200 hover:border-red-200 hover:bg-red-50 rounded-full transition-all">
-          Logout
-        </button>
+      <div class="flex items-center gap-5">
+        <a routerLink="/predictions" class="text-sm font-semibold text-slate-600 hover:text-blue-700 transition-colors">Predictions</a>
+        
+        <div class="flex items-center gap-3 pl-5 border-l border-slate-200">
+          <div class="h-9 w-9 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-sm">
+            {{ (authService.fullName() || authService.email() || 'U')[0] | uppercase }}
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-1.5">
+              <span class="text-sm font-bold text-slate-800 leading-none">
+                {{ authService.fullName() || authService.email() || 'User' }}
+              </span>
+              @if (authService.isAdmin()) {
+                <span class="px-1.5 py-0.5 bg-blue-100 text-blue-800 text-[10px] font-extrabold rounded uppercase tracking-wider">Admin</span>
+              }
+            </div>
+            <button (click)="logout()" class="text-xs text-left text-slate-500 hover:text-red-600 font-semibold mt-1 transition-colors w-fit">
+              Log out
+            </button>
+          </div>
+        </div>
       </div>
     } @else {
-      <a routerLink="/login" class="px-6 py-2.5 text-sm font-bold text-blue-700 bg-blue-50 border-2 border-blue-100 hover:bg-blue-100 rounded-full transition-all">
+      <a routerLink="/login" class="px-6 py-2.5 text-sm font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 hover:shadow-sm rounded-full transition-all">
         Member Login
       </a>
     }

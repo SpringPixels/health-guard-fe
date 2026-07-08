@@ -5,9 +5,11 @@ import { CalculatorStateService } from './calculator/calculator-state.service';
 
 // Guard to protect routes that require the user to be logged in
 export const loggedInGuard: CanActivateFn = () => {
+  if (typeof window === 'undefined') return true;
+  
   const auth = inject(AuthService);
   const router = inject(Router);
-  
+
   if (auth.isLoggedIn()) {
     return true;
   }
@@ -16,9 +18,11 @@ export const loggedInGuard: CanActivateFn = () => {
 
 // Guard to prevent logged in users from accessing login/register pages
 export const guestGuard: CanActivateFn = () => {
+  if (typeof window === 'undefined') return true;
+
   const auth = inject(AuthService);
   const router = inject(Router);
-  
+
   if (!auth.isLoggedIn()) {
     return true;
   }
@@ -27,10 +31,12 @@ export const guestGuard: CanActivateFn = () => {
 
 // Guard to protect the calculator results page
 export const calculatorResultsGuard: CanActivateFn = () => {
+  if (typeof window === 'undefined') return true;
+
   const state = inject(CalculatorStateService);
   const router = inject(Router);
 
-  if (state.premium() !== null) {
+  if (state.prediction() !== null) {
     return true;
   }
   return router.parseUrl('/calculator');
@@ -38,6 +44,8 @@ export const calculatorResultsGuard: CanActivateFn = () => {
 
 // Guard to protect admin-only routes
 export const adminGuard: CanActivateFn = () => {
+  if (typeof window === 'undefined') return true;
+
   const auth = inject(AuthService);
   const router = inject(Router);
 

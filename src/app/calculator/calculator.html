@@ -35,6 +35,12 @@
 
       <form class="flex flex-col gap-4" [formRoot]="calcForm" (submit)="calculate()">
 
+        @if (errorMessage()) {
+          <div class="bg-red-50 text-red-700 p-4 rounded-xl border border-red-200 text-sm font-medium mb-4">
+            {{ errorMessage() }}
+          </div>
+        }
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <!-- Name -->
           <mat-form-field appearance="outline" class="w-full">
@@ -139,9 +145,13 @@
         </div>
 
         <div class="mt-8 flex justify-center">
-          <button mat-flat-button color="primary" type="submit" [disabled]="!calcForm().valid()"
-            class="w-full md:w-auto px-16 py-6 text-xl">
-            Calculate Premium
+          <button mat-flat-button color="primary" type="submit" [disabled]="!calcForm().valid() || isLoading()"
+            class="w-full md:w-auto px-16 py-6 text-xl relative h-14 min-w-[250px]">
+            @if (isLoading()) {
+              <mat-spinner diameter="24" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"></mat-spinner>
+            } @else {
+              Calculate Premium
+            }
           </button>
         </div>
       </form>
