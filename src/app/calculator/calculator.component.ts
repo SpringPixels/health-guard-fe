@@ -12,6 +12,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { form, FormField, required, min, FormRoot } from '@angular/forms/signals';
 import { CalculatorStateService, PredictionResponse } from './calculator-state.service';
+import { ApiErrorService } from '../api-error.service';
 import { environment } from '../../environments/environment';
 
 interface CalculatorData {
@@ -47,6 +48,7 @@ export class CalculatorComponent {
   private router = inject(Router);
   private state = inject(CalculatorStateService);
   private http = inject(HttpClient);
+  private apiError = inject(ApiErrorService);
 
   tier1Cities = ['Mumbai', 'Delhi', 'Bengaluru', 'Bangalore', 'Hyderabad', 'Chennai', 'Kolkata', 'Pune'];
   tier2Cities = [
@@ -141,7 +143,7 @@ export class CalculatorComponent {
         },
         error: (err) => {
           this.isLoading.set(false);
-          this.errorMessage.set('An error occurred while calculating your premium. Please try again.');
+          this.errorMessage.set(this.apiError.getMessage(err, 'An error occurred while calculating your premium. Please try again.'));
           console.error('Calculation Error:', err);
         }
       });

@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { CalculatorStateService } from '../calculator/calculator-state.service';
 import { AuthService } from '../auth.service';
+import { ApiErrorService } from '../api-error.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -29,6 +30,7 @@ export class PaymentComponent {
   private router = inject(Router);
   private state = inject(CalculatorStateService);
   private auth = inject(AuthService);
+  private apiError = inject(ApiErrorService);
 
   get amount(): number {
     return this.state.prediction()?.predicted_premium || 0;
@@ -66,7 +68,7 @@ export class PaymentComponent {
         },
         error: (err) => {
           this.isProcessing.set(false);
-          this.errorMessage.set('Payment failed. Please try again.');
+          this.errorMessage.set(this.apiError.getMessage(err, 'Payment failed. Please try again.'));
           console.error(err);
         }
       });

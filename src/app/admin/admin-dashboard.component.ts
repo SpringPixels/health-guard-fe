@@ -4,11 +4,13 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { ApiErrorService } from '../api-error.service';
 
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatProgressSpinnerModule],
+  imports: [CommonModule, MatCardModule, MatProgressSpinnerModule, MatSnackBarModule],
   template: `
     <div class="dashboard-grid" *ngIf="!isLoading(); else loading">
       <!-- KPI Cards -->
@@ -97,7 +99,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 })
 export class AdminDashboardComponent implements OnInit {
   private http = inject(HttpClient);
-  
+  private snackBar = inject(MatSnackBar);
+  private apiError = inject(ApiErrorService);
+
   dashboardData = signal<any>(null);
   isLoading = signal(true);
 
@@ -109,7 +113,9 @@ export class AdminDashboardComponent implements OnInit {
         this.isLoading.set(false);
       },
       error: (err) => {
+        const msg = this.apiError.getMessage(err, 'Failed to load dashboard data.');
         console.error('Failed to load dashboard data', err);
+        this.snackBar.open(msg, 'Close', { duration: 5000, panelClass: 'snack-error' });
         this.isLoading.set(false);
       }
     });

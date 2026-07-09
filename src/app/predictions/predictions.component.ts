@@ -6,6 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
+import { ApiErrorService } from '../api-error.service';
 
 export interface PredictionHistory {
   id?: number;
@@ -36,6 +37,7 @@ export interface PredictionHistory {
 })
 export class PredictionsComponent implements OnInit {
   private http = inject(HttpClient);
+  private apiError = inject(ApiErrorService);
 
   predictions = signal<PredictionHistory[]>([]);
   isLoading = signal<boolean>(true);
@@ -57,7 +59,7 @@ export class PredictionsComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error fetching history:', err);
-        this.errorMessage.set('Could not load prediction history. Please try again later.');
+        this.errorMessage.set(this.apiError.getMessage(err, 'Could not load prediction history. Please try again later.'));
         this.isLoading.set(false);
       }
     });

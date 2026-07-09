@@ -6,6 +6,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { ApiErrorService } from '../api-error.service';
 
 @Component({
   selector: 'app-admin-users',
@@ -63,6 +64,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 export class AdminUsersComponent implements OnInit {
   private http = inject(HttpClient);
   private snackBar = inject(MatSnackBar);
+  private apiError = inject(ApiErrorService);
 
   users = signal<any[]>([]);
   displayedColumns: string[] = ['id', 'email', 'role', 'actions'];
@@ -75,14 +77,14 @@ export class AdminUsersComponent implements OnInit {
     if (typeof window === 'undefined') return;
     this.http.get<any[]>(`${environment.apiUrl}/admin/users`).subscribe({
       next: (data) => this.users.set(data),
-      error: (err) => this.showError('Failed to load users')
+      error: (err) => this.showError(this.apiError.getMessage(err, 'Failed to load users'))
     });
   }
 
   updateRole(userId: number, newRole: string) {
     this.http.patch(`${environment.apiUrl}/admin/users/${userId}/role`, { role: newRole }).subscribe({
       next: () => this.snackBar.open('Role updated', 'Close', { duration: 3000 }),
-      error: () => this.showError('Failed to update role')
+      error: (err) => this.showError(this.apiError.getMessage(err, 'Failed to update role'))
     });
   }
 
@@ -93,12 +95,12 @@ export class AdminUsersComponent implements OnInit {
           this.snackBar.open('User deleted', 'Close', { duration: 3000 });
           this.loadUsers();
         },
-        error: () => this.showError('Failed to delete user')
+        error: (err) => this.showError(this.apiError.getMessage(err, 'Failed to delete user'))
       });
     }
   }
 
   showError(msg: string) {
-    this.snackBar.open(msg, 'Close', { duration: 3000, panelClass: ['error-snackbar'] });
+    this.snackBar.open(msg, 'Close', { duration: 5000, panelClass: ['error-snackbar'] });
   }
 }

@@ -8,6 +8,7 @@ import { form, FormField, required, email, minLength, FormRoot } from '@angular/
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../auth.service';
+import { ApiErrorService } from '../api-error.service';
 
 interface LoginData {
   email: string;
@@ -33,6 +34,7 @@ interface LoginData {
 export class Login {
   private authService = inject(AuthService);
   private router = inject(Router);
+  private apiError = inject(ApiErrorService);
 
   errorMessage = signal<string>('');
   isLoading = signal<boolean>(false);
@@ -66,11 +68,7 @@ export class Login {
       },
       error: (err) => {
         this.isLoading.set(false);
-        this.errorMessage.set(
-          err.status === 401 || err.status === 422
-            ? 'Invalid email or password.'
-            : 'An unexpected error occurred. Please try again later.'
-        );
+        this.errorMessage.set(this.apiError.getMessage(err, 'Login failed. Please check your credentials.'));
       }
     });
   }

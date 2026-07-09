@@ -8,6 +8,7 @@ import { form, FormField, required, email, minLength, pattern, FormRoot, validat
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../auth.service';
+import { ApiErrorService } from '../api-error.service';
 
 interface RegisterData {
   full_name: string;
@@ -36,6 +37,7 @@ interface RegisterData {
 export class Register {
   private authService = inject(AuthService);
   private router = inject(Router);
+  private apiError = inject(ApiErrorService);
 
   errorMessage = signal<string>('');
   isLoading = signal<boolean>(false);
@@ -98,11 +100,7 @@ export class Register {
       },
       error: (err) => {
         this.isLoading.set(false);
-        this.errorMessage.set(
-          err.status === 409 || err.status === 422
-            ? 'Registration failed. The email might already be in use or data is invalid.'
-            : 'An unexpected error occurred. Please try again later.'
-        );
+        this.errorMessage.set(this.apiError.getMessage(err, 'Registration failed. Please try again.'));
       }
     });
   }
