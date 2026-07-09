@@ -1,0 +1,41 @@
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+.kpi-card h2 {
+  font-size: 2.5rem;
+  margin: 10px 0;
+  color: #3f51b5;
+}
+.chart-card {
+  grid-column: 1 / -1;
+}
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  padding: 50px;
+}
+.members-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+.members-table th, .members-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+.members-table th {
+  background: #f8fafc;
+  color: #64748b;
+  font-weight: 600;
+}
+.members-table td strong {
+  color: #15803d;
+}
+.empty-state {
+  text-align: center !important;
+  color: #94a3b8;
+  padding: 30px !important;
+}

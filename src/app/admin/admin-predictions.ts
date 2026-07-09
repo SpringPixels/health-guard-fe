@@ -9,53 +9,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
   selector: 'app-admin-predictions',
   standalone: true,
   imports: [CommonModule, MatTableModule, MatSnackBarModule],
-  template: `
-    <div class="predictions-container">
-      <h3>All Predictions</h3>
-      <table mat-table [dataSource]="predictions()" class="mat-elevation-z8">
-        <!-- ID Column -->
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef> ID </th>
-          <td mat-cell *matCellDef="let pred"> {{pred.id}} </td>
-        </ng-container>
-
-        <!-- User ID Column -->
-        <ng-container matColumnDef="user_id">
-          <th mat-header-cell *matHeaderCellDef> User ID </th>
-          <td mat-cell *matCellDef="let pred"> {{pred.user_id}} </td>
-        </ng-container>
-        
-        <!-- Premium Column -->
-        <ng-container matColumnDef="premium">
-          <th mat-header-cell *matHeaderCellDef> Premium </th>
-          <td mat-cell *matCellDef="let pred"> {{pred.predicted_premium | currency:'INR'}} </td>
-        </ng-container>
-        
-        <!-- Category Column -->
-        <ng-container matColumnDef="category">
-          <th mat-header-cell *matHeaderCellDef> Category </th>
-          <td mat-cell *matCellDef="let pred"> {{pred.predicted_category}} </td>
-        </ng-container>
-
-        <!-- Created At Column -->
-        <ng-container matColumnDef="created_at">
-          <th mat-header-cell *matHeaderCellDef> Date </th>
-          <td mat-cell *matCellDef="let pred"> {{pred.created_at | date:'short'}} </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-    </div>
-  `,
-  styles: [`
-    .predictions-container {
-      width: 100%;
-    }
-    table {
-      width: 100%;
-    }
-  `]
+  templateUrl: './admin-predictions.html',
+  styleUrls: ['./admin-predictions.css']
 })
 export class AdminPredictions implements OnInit {
   private http = inject(HttpClient);

@@ -1,0 +1,14 @@
+.users-container {
+  width: 100%;
+}
+table {
+  width: 100%;
+}
+.active-status {
+  color: green;
+  font-weight: 500;
+}
+.banned-status {
+  color: red;
+  font-weight: 500;
+}
