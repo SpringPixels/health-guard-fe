@@ -95,6 +95,12 @@ import { ApiErrorService } from '../api-error.service';
               <p class="text-lg font-bold text-orange-600">{{ selectedAnalysis().predicted_renewal_premium | currency:'INR' }}</p>
             </div>
             <div>
+              <p class="text-sm text-slate-500">Difference</p>
+              <p class="text-lg font-bold" [ngClass]="{'text-red-600': selectedAnalysis().predicted_renewal_premium > selectedAnalysis().base_premium, 'text-green-600': selectedAnalysis().predicted_renewal_premium <= selectedAnalysis().base_premium}">
+                {{ (selectedAnalysis().predicted_renewal_premium - selectedAnalysis().base_premium) > 0 ? '+' : '' }}{{ (selectedAnalysis().predicted_renewal_premium - selectedAnalysis().base_premium) | currency:'INR' }}
+              </p>
+            </div>
+            <div>
               <p class="text-sm text-slate-500">Total Exercises (30 days)</p>
               <p class="text-lg">{{ selectedAnalysis().total_exercises }}</p>
             </div>
