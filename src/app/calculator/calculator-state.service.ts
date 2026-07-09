@@ -4,6 +4,7 @@ export interface PredictionResponse {
   predicted_category: string;
   confidence: number;
   class_probabilities: { [key: string]: number };
+  predicted_premium: number;
 }
 
 @Injectable({

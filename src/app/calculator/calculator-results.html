@@ -46,9 +46,15 @@
           <button mat-stroked-button color="primary" (click)="recalculate()" class="!px-10 !py-6 text-lg">
             Recalculate
           </button>
-          <button mat-flat-button color="primary" routerLink="/payment" class="!px-10 !py-6 text-lg">
-            Proceed to Buy
-          </button>
+          @if (!authService.isPaid()) {
+            <button mat-flat-button color="primary" routerLink="/payment" class="!px-10 !py-6 text-lg">
+              Proceed to Buy
+            </button>
+          } @else {
+            <button mat-flat-button color="primary" disabled class="!px-10 !py-6 text-lg bg-green-500 text-white">
+              Already a Premium Member
+            </button>
+          }
         </div>
       </div>
     </mat-card>

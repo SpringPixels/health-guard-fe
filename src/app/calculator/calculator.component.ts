@@ -48,7 +48,32 @@ export class CalculatorComponent {
   private state = inject(CalculatorStateService);
   private http = inject(HttpClient);
 
-  cities = ['Mumbai', 'Delhi', 'Bengaluru', 'Chennai', 'Kolkata', 'Hyderabad', 'Pune', 'Other Tier 1', 'Tier 2/3 City'];
+  tier1Cities = ['Mumbai', 'Delhi', 'Bengaluru', 'Bangalore', 'Hyderabad', 'Chennai', 'Kolkata', 'Pune'];
+  tier2Cities = [
+    'Jaipur', 'Chandigarh', 'Indore', 'Lucknow', 'Patna', 'Visakhapatnam', 'Coimbatore',
+    'Bhopal', 'Nagpur', 'Vadodara', 'Surat', 'Rajkot', 'Jodhpur', 'Raipur', 'Amritsar', 'Varanasi',
+    'Agra', 'Dehradun', 'Mysore', 'Jabalpur', 'Guwahati', 'Thiruvananthapuram', 'Ludhiana', 'Nashik',
+    'Allahabad', 'Udaipur', 'Aurangabad', 'Hubli', 'Belgaum', 'Salem', 'Vijayawada', 'Tiruchirappalli',
+    'Bhavnagar', 'Gwalior', 'Dhanbad', 'Bareilly', 'Aligarh', 'Gaya', 'Kozhikode', 'Warangal',
+    'Kolhapur', 'Bilaspur', 'Jalandhar', 'Noida', 'Guntur', 'Asansol', 'Siliguri'
+  ];
+  tier3Cities = [
+    'Shimla', 'Manali', 'Dharamshala', 'Srinagar', 'Jammu', 'Leh', 'Gangtok', 'Shillong',
+    'Aizawl', 'Imphal', 'Agartala', 'Itanagar', 'Kohima', 'Dispur', 'Daman', 'Silvassa',
+    'Puducherry', 'Panaji', 'Port Blair', 'Kavaratti', 'Ajmer', 'Bikaner', 'Kota', 'Alwar',
+    'Firozabad', 'Mathura', 'Muzaffarnagar', 'Saharanpur', 'Moradabad', 'Gorakhpur', 'Meerut',
+    'Kanpur', 'Prayagraj', 'Hapur', 'Rampur', 'Shahjahanpur', 'Loni', 'Mangalore', 'Mysuru',
+    'Davangere', 'Bellary', 'Bijapur', 'Shimoga', 'Tumkur', 'Raichur', 'Hassan', 'Gulbarga',
+    'Kurnool', 'Rajahmundry', 'Nellore', 'Tirupati', 'Eluru', 'Anantapur', 'Kadapa',
+    'Madurai', 'Vellore', 'Erode', 'Tirunelveli', 'Tiruppur', 'Thoothukudi', 'Dindigul',
+    'Bhilai', 'Korba', 'Durg', 'Rajnandgaon', 'Jamshedpur', 'Bokaro', 'Hazaribagh', 'Ranchi',
+    'Cuttack', 'Berhampur', 'Brahmapur', 'Rourkela', 'Sambalpur', 'Bhubaneswar',
+    'Ahmedabad', 'Anand', 'Navsari', 'Junagadh', 'Gandhinagar', 'Mehsana',
+    'Amravati', 'Nanded', 'Solapur', 'Sangli', 'Latur', 'Akola', 'Jalgaon', 'Dhule',
+    'Kochi', 'Thrissur', 'Kollam', 'Kannur', 'Palakkad', 'Malappuram', 'Alappuzha',
+    'Rohtak', 'Hisar', 'Panipat', 'Karnal', 'Yamunanagar', 'Ambala', 'Sonipat',
+    'Jabalpur', 'Ujjain', 'Satna', 'Sagar', 'Rewa', 'Guna', 'Burhanpur', 'Morena'
+  ];
   occupations = ["Teacher", "Business Owner", "Student", "Retired", "Doctor", "Software Engineer", "Sales Executive", "Banker"];
 
   calcModel = signal<CalculatorData>({
@@ -108,7 +133,8 @@ export class CalculatorComponent {
           const mappedPrediction: PredictionResponse = {
             predicted_category: response.prediction_results?.predicted_category || response.predicted_category,
             confidence: response.prediction_results?.confidence_score || response.confidence,
-            class_probabilities: response.prediction_results?.all_class_probabilities || response.class_probabilities
+            class_probabilities: response.prediction_results?.all_class_probabilities || response.class_probabilities,
+            predicted_premium: response.predicted_premium
           };
           this.state.setResult(data.name, mappedPrediction);
           this.router.navigate(['/calculator/results']);

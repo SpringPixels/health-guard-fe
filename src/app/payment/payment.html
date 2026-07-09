@@ -67,7 +67,7 @@
                 @if (isProcessing()) {
                   <mat-spinner diameter="24" class="mr-2"></mat-spinner> Processing...
                 } @else {
-                  Pay ₹12,000.00
+                  Pay {{ amount | currency:'INR' }}
                 }
               </button>
             </form>
@@ -86,7 +86,7 @@
             <div class="flex flex-col gap-4 border-b border-blue-800/50 pb-6 mb-6">
               <div class="flex justify-between items-center">
                 <span class="text-blue-200 text-sm">Premium Plan (Annual)</span>
-                <span class="font-bold">₹12,000.00</span>
+                <span class="font-bold">{{ amount | currency:'INR' }}</span>
               </div>
               <div class="flex justify-between items-center">
                 <span class="text-blue-200 text-sm">Taxes & Fees</span>
@@ -96,7 +96,7 @@
             
             <div class="flex justify-between items-end mb-8">
               <span class="text-blue-100 font-medium">Total Billed</span>
-              <span class="text-4xl font-black">₹12,000<span class="text-xl text-blue-300">.00</span></span>
+              <span class="text-4xl font-black">{{ amount | currency:'INR' }}</span>
             </div>
             
             <div class="bg-white/10 rounded-2xl p-4 border border-white/10 backdrop-blur-sm">

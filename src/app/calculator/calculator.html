@@ -105,9 +105,21 @@
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>City of Residence</mat-label>
             <mat-select [formField]="calcForm.city">
-              @for (c of cities; track c) {
-              <mat-option [value]="c">{{ c }}</mat-option>
-              }
+              <mat-optgroup label="🏙️ Tier 1 — Metro Cities">
+                @for (c of tier1Cities; track c) {
+                  <mat-option [value]="c">{{ c }}</mat-option>
+                }
+              </mat-optgroup>
+              <mat-optgroup label="🌆 Tier 2 — Major Cities">
+                @for (c of tier2Cities; track c) {
+                  <mat-option [value]="c">{{ c }}</mat-option>
+                }
+              </mat-optgroup>
+              <mat-optgroup label="🏘️ Tier 3 — Other Cities & Towns">
+                @for (c of tier3Cities; track c) {
+                  <mat-option [value]="c">{{ c }}</mat-option>
+                }
+              </mat-optgroup>
             </mat-select>
             <mat-hint class="text-red-500">
               @if (city().errors() && city().touched()) {

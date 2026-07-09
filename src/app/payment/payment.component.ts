@@ -1,9 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { CalculatorStateService } from '../calculator/calculator-state.service';
+import { AuthService } from '../auth.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -12,7 +14,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   selector: 'app-payment',
   standalone: true,
   imports: [
-    CommonModule, 
+    CommonModule,
+    CurrencyPipe,
     ReactiveFormsModule, 
     MatCardModule, 
     MatButtonModule,
@@ -24,6 +27,12 @@ export class PaymentComponent {
   private fb = inject(FormBuilder);
   private http = inject(HttpClient);
   private router = inject(Router);
+  private state = inject(CalculatorStateService);
+  private auth = inject(AuthService);
+
+  get amount(): number {
+    return this.state.prediction()?.predicted_premium || 0;
+  }
 
   isProcessing = signal(false);
   errorMessage = signal('');
@@ -41,12 +50,16 @@ export class PaymentComponent {
       this.isProcessing.set(true);
       this.errorMessage.set('');
       
-      const payload = { amount: 1200 }; // Mock fixed amount
+      const payload = { amount: this.amount };
       
       this.http.post(`${environment.apiUrl}/payments/create`, payload).subscribe({
         next: () => {
           this.isProcessing.set(false);
           this.successMessage.set('Payment successful! Redirecting...');
+          this.auth.isPaid.set(true);
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('paid', 'true');
+          }
           setTimeout(() => {
             this.router.navigate(['/predictions']);
           }, 2000);
