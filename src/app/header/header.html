@@ -14,13 +14,15 @@
   <div class="hidden md:flex items-center gap-4">
     @if (authService.isLoggedIn()) {
       <div class="flex items-center gap-5">
-        <a routerLink="/predictions" class="text-sm font-semibold text-slate-600 hover:text-blue-700 transition-colors">Predictions</a>
-        <a routerLink="/activities" class="flex items-center gap-1 text-sm font-semibold text-slate-600 hover:text-blue-700 transition-colors">
-          Activity Tracker
-          @if (!authService.isPaid()) {
-            <span title="Premium feature" class="text-[12px] grayscale opacity-60">🔒</span>
-          }
-        </a>
+        @if (!authService.isAdmin()) {
+          <a routerLink="/predictions" class="text-sm font-semibold text-slate-600 hover:text-blue-700 transition-colors">Predictions</a>
+          <a routerLink="/activities" class="flex items-center gap-1 text-sm font-semibold text-slate-600 hover:text-blue-700 transition-colors">
+            Activity Tracker
+            @if (!authService.isPaid()) {
+              <span title="Premium feature" class="text-[12px] grayscale opacity-60">🔒</span>
+            }
+          </a>
+        }
         @if (authService.isAdmin()) {
           <a routerLink="/admin/dashboard" class="text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors">Admin Panel</a>
         }

@@ -55,7 +55,7 @@ import { ApiErrorService } from '../api-error.service';
         </mat-card-content>
       </mat-card>
 
-      <!-- Revenue Trend -->
+    <!-- Revenue Trend -->
       <mat-card class="chart-card">
         <mat-card-header>
           <mat-card-title>Revenue Trend (Last 6 months)</mat-card-title>
@@ -66,6 +66,34 @@ import { ApiErrorService } from '../api-error.service';
               <strong>{{ point.month }}:</strong> {{ point.amount | currency:'INR' }}
             </li>
           </ul>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Paid Members -->
+      <mat-card class="chart-card">
+        <mat-card-header>
+          <mat-card-title>Paid Members</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <table class="members-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Total Paid</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let member of dashboardData()?.paid_members">
+                <td>#{{ member.user_id }}</td>
+                <td>{{ member.email }}</td>
+                <td><strong>{{ member.total_paid | currency:'INR' }}</strong></td>
+              </tr>
+              <tr *ngIf="!dashboardData()?.paid_members?.length">
+                <td colspan="3" class="empty-state">No paid members yet.</td>
+              </tr>
+            </tbody>
+          </table>
         </mat-card-content>
       </mat-card>
     </div>
@@ -94,6 +122,29 @@ import { ApiErrorService } from '../api-error.service';
       display: flex;
       justify-content: center;
       padding: 50px;
+    }
+    .members-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    .members-table th, .members-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    .members-table th {
+      background: #f8fafc;
+      color: #64748b;
+      font-weight: 600;
+    }
+    .members-table td strong {
+      color: #15803d;
+    }
+    .empty-state {
+      text-align: center !important;
+      color: #94a3b8;
+      padding: 30px !important;
     }
   `]
 })
