@@ -1,5 +1,5 @@
 import { Component, OnInit, signal, inject } from '@angular/core';
-import { CommonModule, DatePipe, PercentPipe, CurrencyPipe } from '@angular/common';
+import { CommonModule, DatePipe, CurrencyPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { MatCardModule } from '@angular/material/card';
@@ -30,7 +30,6 @@ export interface PredictionHistory {
     MatButtonModule,
     RouterLink,
     DatePipe,
-    PercentPipe,
     CurrencyPipe
   ],
   templateUrl: './predictions.html',
