@@ -1,0 +1,98 @@
+<main class="min-h-screen bg-slate-50 py-12 px-6">
+  <div class="max-w-4xl mx-auto space-y-8">
+    
+    <!-- Header -->
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-3xl font-extrabold text-slate-900">Activity Tracker</h1>
+        <p class="text-slate-500 mt-2">Log your daily activities and maintain your streak!</p>
+      </div>
+      
+      <!-- Current Streak Badge -->
+      <div class="bg-orange-100 border border-orange-200 text-orange-700 px-6 py-3 rounded-2xl flex items-center gap-3 shadow-sm">
+        <mat-icon class="text-orange-500 drop-shadow-sm">local_fire_department</mat-icon>
+        <div>
+          <p class="text-xs font-bold uppercase tracking-wide opacity-80">Current Streak</p>
+          <p class="text-2xl font-black leading-none">{{ currentStreak() }} Days</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Check-in Section -->
+    <mat-card class="p-8 rounded-3xl shadow-sm border border-slate-200 bg-white">
+      <h2 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+        <mat-icon class="text-blue-600">check_circle</mat-icon>
+        Daily Check-in
+      </h2>
+      
+      @if (hasCheckedInToday()) {
+        <div class="bg-green-50 border border-green-200 text-green-800 p-6 rounded-2xl flex flex-col items-center justify-center gap-3">
+          <mat-icon class="text-green-500 scale-150">celebration</mat-icon>
+          <p class="text-lg font-bold">Awesome! You've already logged your activity today.</p>
+          <p class="text-sm opacity-80">Keep up the great work and come back tomorrow to keep your streak alive.</p>
+        </div>
+      } @else {
+        <div class="bg-blue-50/50 p-6 rounded-2xl border border-blue-100">
+          <p class="text-sm text-blue-800 font-medium mb-4 flex items-center gap-2">
+            <mat-icon class="text-blue-500 text-sm w-4 h-4">lightbulb</mat-icon>
+            AI Suggestion based on your health segment:
+          </p>
+          
+          <form [formGroup]="checkInForm" (submit)="submitCheckIn()" class="flex flex-col md:flex-row gap-4 items-start md:items-center">
+            <mat-form-field appearance="outline" class="w-full md:flex-1 mb-[-1.25em]">
+              <mat-label>What activity did you do today?</mat-label>
+              <input matInput formControlName="activityType" placeholder="e.g. 30-min Walk" />
+            </mat-form-field>
+            
+            <button mat-flat-button color="primary" type="submit" [disabled]="checkInForm.invalid" class="h-[56px] px-8 rounded-xl shrink-0 w-full md:w-auto">
+              Log Activity
+            </button>
+          </form>
+        </div>
+      }
+    </mat-card>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- 7-Day Streak Calendar -->
+      <mat-card class="p-8 rounded-3xl shadow-sm border border-slate-200 bg-white">
+        <div class="flex justify-between items-start mb-6">
+          <h3 class="text-lg font-bold text-slate-800">Last 7 Days</h3>
+          <p class="text-xs text-slate-500 italic max-w-[150px] text-right">{{ streakMessage() }}</p>
+        </div>
+        <div class="flex justify-between items-end gap-2">
+          @for (day of calendarDays(); track day.dateStr) {
+            <div class="flex flex-col items-center gap-2">
+              <div 
+                class="w-10 h-10 rounded-full flex items-center justify-center transition-all"
+                [ngClass]="day.completed ? 'bg-green-100 text-green-600 border-2 border-green-500 shadow-sm scale-110' : 'bg-slate-100 text-slate-400 border border-slate-200'">
+                @if (day.completed) {
+                  <mat-icon class="scale-90">check</mat-icon>
+                } @else {
+                  <mat-icon class="scale-90">close</mat-icon>
+                }
+              </div>
+              <span class="text-xs font-medium" [ngClass]="day.completed ? 'text-slate-800' : 'text-slate-400'">
+                {{ day.dayName }}
+              </span>
+            </div>
+          }
+        </div>
+      </mat-card>
+
+      <!-- Monthly Summary -->
+      <mat-card class="p-8 rounded-3xl shadow-sm border border-slate-200 bg-white">
+        <h3 class="text-lg font-bold text-slate-800 mb-6">Monthly Summary</h3>
+        <div class="flex flex-col justify-center h-full pb-6">
+          <div class="flex justify-between items-end mb-2">
+            <span class="text-slate-500 font-medium">Workouts this month</span>
+            <span class="text-3xl font-black text-blue-600">{{ thisMonthCount() }}</span>
+          </div>
+          <!-- Progress bar assuming a goal of 20 workouts a month -->
+          <mat-progress-bar mode="determinate" [value]="(thisMonthCount() / 20) * 100" class="h-3 rounded-full"></mat-progress-bar>
+          <p class="text-xs text-slate-400 mt-3 text-right">Monthly Goal: 20 Workouts</p>
+        </div>
+      </mat-card>
+    </div>
+
+  </div>
+</main>

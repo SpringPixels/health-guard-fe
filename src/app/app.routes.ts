@@ -13,6 +13,7 @@ export const routes: Routes = [
   { path: 'calculator', loadComponent: () => import('./calculator/calculator.component').then(m => m.CalculatorComponent), canActivate: [loggedInGuard] },
   { path: 'calculator/results', loadComponent: () => import('./calculator/calculator-results.component').then(m => m.CalculatorResultsComponent), canActivate: [calculatorResultsGuard, loggedInGuard] },
   { path: 'predictions', loadComponent: () => import('./predictions/predictions.component').then(m => m.PredictionsComponent), canActivate: [loggedInGuard] },
+  { path: 'activities', loadComponent: () => import('./activities/activities.component').then(m => m.ActivitiesComponent), canActivate: [loggedInGuard] },
   { path: 'payment', loadComponent: () => import('./payment/payment.component').then(m => m.PaymentComponent), canActivate: [loggedInGuard] },
   { path: '**', redirectTo: 'home' }
 ];
